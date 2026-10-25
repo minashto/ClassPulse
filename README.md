@@ -1,131 +1,142 @@
-# ClearPulse — Unified Classroom Intelligence & Institutional Helpdesk
+# ClearPulse — Unified Classroom Intelligence & Explainable Helpdesk
 
-**Bannari Amman Institute of Technology, Sathyamangalam (BIT Sathy)**  
+<div align="center">
+
+![ClearPulse Hero Banner](./docs/hero-banner.jpg)
+
+### **Bannari Amman Institute of Technology, Sathyamangalam (BIT Sathy)**
 *Authorized Institutional Domain: `@bitsathy.ac.in`*
+
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=github-actions)](https://github.com/minashto/ClassPulse)
+[![Unit Tests](https://img.shields.io/badge/tests-8%2F8%20passing-10b981?style=for-the-badge&logo=vitest)](https://github.com/minashto/ClassPulse)
+[![React](https://img.shields.io/badge/React-19.3-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+**One connected platform bridging classroom telemetry with institutional helpdesk operations.**
+
+</div>
 
 ---
 
-## 🎯 Executive Problem Statement
+## 🎯 The Core Problem: Slipped vs. System Failed Them?
 
-When a student's attendance or marks drop at BIT Sathy, the institution previously had no way to distinguish whether the student **slipped academically** or an **underlying campus system failed them** — such as a biometric reader timeout, a PS Portal or On-Duty (OD) entry delay, or an unresolved revaluation result.
+When a student's attendance or marks drop at BIT Sathy, the institution previously had no way to distinguish whether the student **slipped academically** or an **underlying campus system failed them** — such as:
+- A biometric reader network packet drop on terminal `#MB2-04`.
+- A PS Portal or PCDP On-Duty (OD) entry delay.
+- An unresolved examination revaluation result in the COE system.
 
-Because the classroom monitoring tool (**ClassPulse**) and the student grievance ticketing system (**Helpdesk**) operated in separate silos:
-1. **Teachers chased students** for attendance drops that actually belonged to a campus department (e.g. NMC or PS).
-2. **Departments handled tickets** in a generic FIFO queue without knowing if the student was on the brink of debarment (<75% attendance).
-3. **No connected feedback loop existed** to rectify false absences when a technical failure was resolved.
+Because the classroom tracking tool (**ClassPulse**) and the student grievance ticketing system (**Helpdesk**) were siloed:
+1. **Teachers chased students** for problems that belonged to a technical department (e.g., NMC or PS).
+2. **Departments handled tickets** in a generic FIFO queue without knowing if a student was on the brink of debarment (<75% attendance).
+3. **Absences remained uncorrected**, leading to wrongful debarment risks and mentor frustration.
 
 ---
 
 ## 💡 The ClearPulse Solution
 
-**ClearPulse** integrates **ClassPulse** (attendance, real-time confusion telemetry, early-warning dropout risk scoring) and the **Helpdesk** (deterministic rule-based routing to NMC, PS, COE, or Office Academics) into **one connected platform with a single college login (`@bitsathy.ac.in`)**.
+**ClearPulse** combines **ClassPulse** (attendance, real-time confusion telemetry, early-warning dropout risk scoring) and the **Helpdesk** (deterministic rule-based routing to NMC, PS, COE, or Office Academics) into **one connected platform with single institutional college login (`@bitsathy.ac.in`)**.
 
-### 🔄 The Prototype Journey (Arun Kumar's Case Study)
-```
-┌────────────────────────┐      ┌────────────────────────┐      ┌────────────────────────┐
-│  Arun Kumar (22BCS104) │      │   Faculty Dr. Ramesh   │      │ NMC Officer Murugesan  │
-│  Attendance: 73.2%     ├─────►│ Teacher Dashboard sees ├─────►│ NMC Queue ranks Arun's │
-│  Risk Score: 82 (HIGH) │      │ "2 Open Biometric Tix" │      │ ticket at top (URGENT) │
-│  Files Biometric Tix   │      │ (Privacy Shield Active)│      │ due to <75% attendance │
-└────────────────────────┘      └────────────────────────┘      └───────────┬────────────┘
-                                                                            │
-                                                                            ▼
-┌────────────────────────┐      ┌────────────────────────┐      ┌────────────────────────┐
-│     Result Updated     │      │   Teacher Signs Off    │      │    NMC Resolves Tix    │
-│ Attendance: 78.0% (OK) │◄─────┤ Dr. Ramesh clicks      │◄─────┤ Terminal #MB2-04 error │
-│ Risk Drops to 24 (LOW) │      │ "Approve Correction"   │      │ confirmed; absences    │
-│ Full Audit Trail Saved │      │ (Human-in-the-Loop)    │      │ flagged for review     │
-└────────────────────────┘      └────────────────────────┘      └────────────────────────┘
-```
-
-1. **Arun's attendance drops to 73.2%** (<75% threshold) after two biometric reader errors on Oct 18 & Oct 21. His risk score surges to **82/100 (High Risk)**.
-2. **His grievance carries academic context:** When Arun submits his ticket, ClearPulse automatically attaches his attendance percentage, affected course dates, and at-risk urgency.
-3. **The teacher's dashboard displays context without violating privacy:** Dr. S. K. Ramesh sees Arun flagged with the note `"2 open biometric tickets (NMC - Under Investigation)"`. The teacher cannot see private complaint text.
-4. **NMC prioritizes at-risk students:** K. Murugesan (NMC) sees Arun's ticket prioritized at the top of the queue with an escalated `"CRITICAL: AT-RISK STUDENT (<75% ATTENDANCE)"` badge.
-5. **NMC resolves with hardware proof:** NMC verifies packet loss in terminal `#MB2-04` buffer and resolves the ticket.
-6. **Absences flagged for human review:** Instead of automatically altering attendance records, the two sessions are flagged as `"FLAGGED_FOR_REVIEW"`.
-7. **Human-in-the-loop approval:** Dr. Ramesh reviews the diagnostic notes, inspects the dates, and signs off.
-8. **Instant recalculation:** Attendance rises to **78.0% (32/41)** and Arun's risk score plummets from **82 to 24/100 (Low Risk)**.
-
----
-
-## 🛡️ Core Architectural Principles & Key Design Choices
-
-### 1. Rule-Based, Explainable Ticket Classifier (`src/utils/classifier.ts`)
-- **Deterministic & Auditable:** Evaluates weighted N-grams and keywords across official department taxonomies:
-  - **NMC (Network Maintenance Cell):** `biometric`, `fingerprint`, `thumb scanner`, `wifi`, `lan`, `access point`.
-  - **PS (PS & Student Affairs):** `ps portal`, `attendance`, `od entry`, `on duty`, `pcdp app`, `leave application`.
-  - **COE (Controller of Examinations):** `exam`, `timetable`, `hall ticket`, `results`, `grade card`, `revaluation`.
-  - **Office Academics:** `mini-project`, `academic project`, `project guide`, `guide approval`, `zeroth review`.
-- **Conflict Handling & Manual Review Fallback:** Complaints with conflicting keywords or zero keyword matches route safely to **Manual Review & Triage** so staff make informed assignments without guesswork.
-
-### 2. Privacy-Guarded Grievance Shield
-- **Strict Faculty Protection:** Mentors and teachers see **only a ticket's verified category and status**, never the confidential text or personal remarks of the student's complaint.
-
-### 3. Human-in-the-Loop Attendance Verification
-- **Zero Automatic Manipulation:** Campus system resolutions **never alter attendance records automatically**. Every record change requires positive faculty sign-off, protecting institutional integrity for NAAC and NBA compliance.
-
----
-
-## 💻 Tech Stack & Project Structure
-
-- **Framework:** React 19, TypeScript, Vite
-- **Styling:** Custom Cyber-Academic Glassmorphism CSS Design System (`src/index.css`)
-- **Icons:** Lucide React
-- **Testing:** Node.js native test runner (`node --test tests/classification.test.mjs`)
-
-```
-ClearPulse/
-├── src/
-│   ├── types/
-│   │   └── index.ts                 # Full domain models (User, Ticket, AcademicContext, AttendanceRecord)
-│   ├── utils/
-│   │   └── classifier.ts            # Deterministic, explainable rule-based grievance classifier
-│   ├── data/
-│   │   └── mockData.ts              # Institutional mock database & Arun's case study data
-│   ├── context/
-│   │   └── AppContext.tsx           # Global state, role switcher & human-in-the-loop verification
-│   ├── components/
-│   │   ├── Navbar.tsx               # Top bar with instant role switcher & tabs
-│   │   ├── GuidedJourneyBar.tsx     # Step-by-step interactive case study walkthrough banner
-│   │   ├── TicketDetailModal.tsx    # Privacy-guarded ticket modal (faculty vs department view)
-│   │   └── AttendanceCorrectionModal.tsx # Faculty human-in-the-loop sign-off drawer
-│   ├── views/
-│   │   ├── StudentView.tsx          # Arun's portal: attendance breakdown, risk gauge, ticket submission
-│   │   ├── TeacherView.tsx          # ClassPulse faculty matrix, "2 open biometric tickets", action center
-│   │   ├── DepartmentView.tsx       # NMC queue prioritized by student risk, hardware telemetry
-│   │   ├── AdminView.tsx            # Executive breakdown: "Slipped vs System Failure", manual triage
-│   │   ├── ClassifierDemoView.tsx   # Interactive testing sandbox for the rule-based classifier
-│   │   └── CrossSystemView.tsx      # Connected architecture diagram & RBAC privacy matrix
-│   ├── App.tsx                      # Root application shell
-│   └── index.css                    # Design system tokens, glassmorphism, responsive styles
-├── tests/
-│   └── classification.test.mjs      # 8 comprehensive automated unit test suites
-├── index.html                       # BIT Sathy institutional metadata shell
-├── package.json
-└── README.md
+```mermaid
+graph TD
+    A[Student Arun Kumar: Attendance drops to 73.2%] -->|Files Grievance| B(ClearPulse Integration Engine)
+    B -->|Attaches Attendance & 82/100 Risk Context| C{Rule Classifier}
+    C -->|Keywords: Biometric, Terminal MB2-04| D[NMC Helpdesk Queue]
+    D -->|Escalated to Top of Queue| E[NMC Verifies Hardware Buffer Log]
+    E -->|Resolves Ticket| F[Flag Absences for Review]
+    F -->|Zero Auto-Edit: Faculty Action Required| G[Dr. S. K. Ramesh Mentor Review]
+    G -->|Approves Correction| H[Attendance Recalculates to 78.0%]
+    H -->|Risk Score Drops to 24 Safe| I[Audit Log Sealed for NAAC/NBA]
 ```
 
 ---
 
-## 🚀 Running Locally
+## 🔑 Key Design Choices
 
-### 1. Install Dependencies
-```bash
-npm install
-```
+> [!IMPORTANT]
+> ### 1. Ticket Sorting Stays Rule-Based & Explainable
+> Grievances are classified using a **100% deterministic, explainable rule engine** based on weighted N-grams across official BIT Sathy taxonomies. If keywords conflict across departments or have zero match, the ticket routes safely to **Manual Review & Triage** so staff assign it without arbitrary guesswork.
 
-### 2. Run Automated Test Suite
+> [!TIP]
+> ### 2. Teachers See Only Category & Status (Privacy Guard)
+> To protect student confidentiality and institutional governance, **faculty mentors see only a ticket's verified category and status**, never the full grievance text or personal comments.
+
+> [!CAUTION]
+> ### 3. A Human Approves Every Attendance Correction
+> **Nothing changes automatically.** When a department resolves a ticket, affected absences are flagged as `FLAGGED_FOR_REVIEW`. Only a verified faculty mentor can inspect the diagnostic notes and sign off to update records to `PRESENT`.
+
+---
+
+## 🎬 Arun Kumar's Case Study Walkthrough
+
+Evaluators can follow Arun's prototype journey using the **Guided Journey Bar** or instant **Role Switcher** at the top of the interface:
+
+| Step | Persona | Action & Interface State | Impact on System |
+| :---: | :--- | :--- | :--- |
+| **1** | 👨‍🎓 **Student (Arun)** | Attendance is **73.2%** (<75%), Risk is **82/100 (HIGH)**. Files ticket `BIT-2026-1042` with claimed dates Oct 18 & 21. | Academic context (73.2% attendance) is automatically attached to the ticket. |
+| **2** | 🏢 **NMC Staff** | Opens NMC Queue. Arun's ticket is **ranked at the top** with `🚨 CRITICAL: AT-RISK STUDENT`. | Department acts on the grievance with priority before exam debarment lock. |
+| **3** | 👨‍🏫 **Teacher (Faculty)** | In ClassPulse, Dr. Ramesh sees Arun flagged with `"2 Open Biometric Tickets (NMC)"`. | Teacher knows not to chase the student while under technical review. |
+| **4** | 🏢 **NMC Staff** | Investigates Terminal `#MB2-04` log buffer and clicks **"Verify & Resolve (Flag Absences)"**. | Absences marked for review. Ticket status becomes `RESOLVED`. |
+| **5** | 👨‍🏫 **Teacher (Faculty)** | Receives amber banner: *"2 Absences Marked for Review"*. Clicks **"Sign Off Review"** and approves. | **Attendance jumps to 78.0% (>75%)** and **Risk Score drops to 24/100 (LOW)**! |
+
+---
+
+## 🏛️ Official Department Taxonomy & Keyword Mapping
+
+| Department | Department Scope | Official Categories | Primary Keywords & N-Grams |
+| :--- | :--- | :--- | :--- |
+| **NMC** | Network Maintenance Cell | 1. Biometric system issues<br>2. Wi-Fi and LAN<br>3. Access points<br>4. Connectivity | `biometric`, `fingerprint`, `thumb scanner`, `biometric reader`, `mb2-04`, `wifi`, `lan`, `captive portal`, `router` |
+| **PS** | PS & Student Affairs | 1. PS Portal<br>2. PCDP App<br>3. Attendance issues<br>4. On-Duty (OD) entry | `ps portal`, `pcdp app`, `attendance`, `od entry`, `on duty`, `leave application`, `medical leave` |
+| **COE** | Controller of Examinations | 1. Examination issues<br>2. Timetable<br>3. Results and grade cards | `exam`, `timetable`, `hall ticket`, `results`, `grade card`, `revaluation`, `arrear`, `marksheet` |
+| **Office Academics** | Academic Affairs | 1. Mini-projects<br>2. Academic project matters<br>3. Guide approval | `mini-project`, `academic project`, `project guide`, `guide approval`, `zeroth review`, `capstone` |
+| **Manual Review** | Manual Triage | 1. Cross-department conflicts<br>2. Ambiguous complaints | Fallback when keywords conflict or match 0 official categories |
+
+---
+
+## 🧪 Comprehensive Automated Test Suite
+
+ClearPulse includes an automated native test runner verifying all design choices:
+
 ```bash
 npm test
 ```
-*Executes all 8 unit tests verifying rule classification, NMC biometric routing, student risk prioritization, conflict fallback to manual review, and human-in-the-loop attendance rules.*
 
-### 3. Start Development Server
+### Verified Test Cases:
+- ✔ **Test 1:** Arun biometric reader complaint maps deterministically to NMC.
+- ✔ **Test 2:** PS Portal OD entry maps deterministically to PS.
+- ✔ **Test 3:** Revaluation and grade card issues map to COE.
+- ✔ **Test 4:** Mini-project guide approval maps to Office Academics.
+- ✔ **Test 5:** Multi-department conflicts route safely to Manual Review.
+- ✔ **Test 6:** Zero-match out-of-scope complaints route to Manual Review.
+- ✔ **Test 7:** Student academic risk prioritization rule escalates at-risk tickets.
+- ✔ **Test 8:** Human-in-the-loop rule guarantees zero automatic record modification.
+
+---
+
+## 🚀 Quickstart & Installation
+
+### Prerequisites
+- Node.js `v20+` or `v22+`
+- npm `v10+`
+
+### 1. Clone & Install
+```bash
+git clone https://github.com/minashto/ClassPulse.git
+cd ClassPulse
+npm install
+```
+
+### 2. Run Tests
+```bash
+npm test
+```
+
+### 3. Launch Development Server
 ```bash
 npm run dev
 ```
-Open **`http://localhost:5173/`** in your browser.
+Open **`http://localhost:5173/`** in your browser to experience the prototype.
 
 ### 4. Build for Production
 ```bash
@@ -134,10 +145,48 @@ npm run build
 
 ---
 
-## 👥 Roles Available in Demo
+## 📑 Repository Structure
 
-Use the **Switch Role** buttons on the top navigation bar to test the application from any perspective:
-- 👨‍🎓 **Student (Arun Kumar)** — View attendance below 75%, file grievance with auto-attached academic context.
-- 👨‍🏫 **Teacher (Dr. S. K. Ramesh)** — View cohort risk matrix, see `"2 open biometric tickets"` note, and approve attendance corrections.
-- 🏢 **NMC Staff (K. Murugesan)** — View prioritized helpdesk queue, inspect terminal `#MB2-04` telemetry, and resolve ticket with hardware audit log.
-- 🛡️ **Dean Academics (Dr. C. Saravanan)** — Inspect root-cause attribution (64.3% system errors vs 35.7% student slips) and triage ambiguous complaints.
+```
+ClassPulse/
+├── .github/
+│   ├── workflows/ci.yml             # GitHub Actions CI for tests & build
+│   ├── ISSUE_TEMPLATE/              # Bug report & feature request templates
+│   └── pull_request_template.md     # PR checklist ensuring design choice compliance
+├── docs/
+│   └── hero-banner.jpg              # High-resolution dashboard mockup
+├── src/
+│   ├── types/index.ts               # Domain TypeScript interfaces
+│   ├── utils/classifier.ts          # Deterministic, explainable rule classifier
+│   ├── data/mockData.ts             # BIT Sathy institutional datasets & Arun's case study
+│   ├── context/AppContext.tsx       # State management, role switcher & human sign-off
+│   ├── components/
+│   │   ├── Navbar.tsx               # Top bar with role switcher
+│   │   ├── GuidedJourneyBar.tsx     # Step-by-step interactive case study banner
+│   │   ├── TicketDetailModal.tsx    # Privacy-guarded ticket modal
+│   │   └── AttendanceCorrectionModal.tsx # Human approval sign-off drawer
+│   ├── views/
+│   │   ├── StudentView.tsx          # Student portal with live attendance ledger
+│   │   ├── TeacherView.tsx          # ClassPulse mentor matrix & debarment alerts
+│   │   ├── DepartmentView.tsx       # NMC queue prioritized by student risk
+│   │   ├── AdminView.tsx            # Executive breakdown: "Slipped vs System Failure"
+│   │   ├── ClassifierDemoView.tsx   # Live classifier test sandbox
+│   │   └── CrossSystemView.tsx      # System architecture & RBAC privacy matrix
+│   ├── App.tsx                      # Root application shell
+│   └── index.css                    # Glassmorphism cyber-academic design system
+├── tests/
+│   └── classification.test.mjs      # 8 automated unit test suites
+├── ARCHITECTURE.md                  # Detailed mathematical & technical specifications
+├── CONTRIBUTING.md                  # Contribution & design invariant guidelines
+├── LICENSE                          # MIT License
+└── package.json
+```
+
+---
+
+<div align="center">
+
+**Developed for Bannari Amman Institute of Technology, Sathyamangalam**  
+*Single institutional college login & zero automatic attendance manipulation policy enforced.*
+
+</div>
